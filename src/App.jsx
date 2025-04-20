@@ -91,11 +91,18 @@ function App() {
     return <div className="error">ログインしてください</div>;
   }
 
+  // URLにクエリパラメータが含まれているかどうかを判断
+  const hasQueryParams = window.location.search.length > 0;
+  
   // Vercelにデプロイされているかどうかを判断
   const isVercel = import.meta.env.VITE_VERCEL === '1';
   
+  // クエリパラメータがある場合やVercel環境ではbasenameを設定しない
+  const basename = (hasQueryParams || isVercel) ? '/' : '/liff-app/abacus-circuit-viewer';
+  console.log('Router basename:', basename);
+  
   return (
-    <Router basename={isVercel ? '/' : '/liff-app/abacus-circuit-viewer'}>
+    <Router basename={basename}>
       <div className="App">
         <Routes>
           {/* 月（回）選択画面を最初に表示 */}
