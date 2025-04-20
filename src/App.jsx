@@ -61,7 +61,7 @@ function App() {
 
       // ユーザーIDから関連する子どもを取得
       const { data: relationships, error: relError } = await supabase
-        .from('relationships')
+        .from('parent_student_links')
         .select('seito_id')
         .eq('parent_id', users.id);
 
