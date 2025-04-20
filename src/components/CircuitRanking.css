@@ -1,0 +1,238 @@
+.ranking-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .event-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .event-header h2 {
+    color: #3f51b5;
+    margin-bottom: 5px;
+    font-size: 24px;
+  }
+  
+  .event-date {
+    color: #757575;
+    font-size: 16px;
+  }
+  
+  .class-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 25px 0;
+  }
+  
+  .class-tabs a {
+    padding: 10px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    color: #ff9800;
+    background-color: #fff3e0;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .class-tabs a:hover {
+    background-color: #ffe0b2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+  
+  .class-tabs a.active {
+    color: white;
+    background-color: #ff9800;
+  }
+  
+  .ranking-title {
+    text-align: center;
+    margin: 15px 0 25px;
+  }
+  
+  .ranking-title h3 {
+    color: #ff6f00;
+    font-size: 20px;
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: #fff8e1;
+    border-radius: 20px;
+  }
+  
+  .ranking-table {
+    overflow-x: auto;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    border-spacing: 0;
+  }
+  
+  th {
+    background-color: #e0e0e0;
+    padding: 12px 15px;
+    font-weight: bold;
+    color: #424242;
+    position: sticky;
+    top: 0;
+  }
+  
+  th.rank-header {
+    width: 70px;
+  }
+  
+  th.name-header {
+    width: 150px;
+  }
+  
+  th.school-header {
+    width: 120px;
+  }
+  
+  th.score-header {
+    width: 80px;
+  }
+  
+  th.total-header {
+    width: 80px;
+    background-color: #ffecb3;
+    color: #ff6f00;
+  }
+  
+  td {
+    padding: 15px 12px;
+    border-bottom: 1px solid #eeeeee;
+  }
+  
+  tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  /* 1-3位のスタイル */
+  tr.rank-first {
+    background-color: #fff8e1;
+  }
+  
+  tr.rank-second {
+    background-color: #fafafa;
+  }
+  
+  tr.rank-third {
+    background-color: #efebe9;
+  }
+  
+  /* メダルアイコン */
+  .medal-icon {
+    font-size: 20px;
+    margin-right: 5px;
+    display: inline-block;
+  }
+  
+  .rank-cell {
+    font-weight: bold;
+    color: #616161;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  tr.rank-first .rank-cell {
+    color: #f57f17;
+    font-size: 22px;
+  }
+  
+  tr.rank-second .rank-cell {
+    color: #757575;
+    font-size: 20px;
+  }
+  
+  tr.rank-third .rank-cell {
+    color: #8d6e63;
+    font-size: 20px;
+  }
+  
+  .name-cell {
+    font-weight: 500;
+    text-align: left;
+    padding-left: 15px;
+  }
+  
+  .school-cell {
+    color: #616161;
+    font-size: 14px;
+  }
+  
+  .score-cell {
+    font-weight: 500;
+    color: #2e7d32;
+  }
+  
+  .total-cell {
+    font-weight: bold;
+    color: #f57f17;
+    font-size: 20px;
+    background-color: #fff8e1;
+  }
+  
+  /* アクションボタン */
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  
+  .back-button {
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: #78909c;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .back-button:hover {
+    background-color: #546e7a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  
+  /* レスポンシブデザイン */
+  @media (max-width: 768px) {
+    .ranking-container {
+      padding: 15px;
+    }
+    
+    th, td {
+      padding: 10px 8px;
+    }
+    
+    .rank-cell, .total-cell {
+      font-size: 16px;
+    }
+    
+    .medal-icon {
+      font-size: 16px;
+    }
+    
+    .school-cell {
+      display: none;
+    }
+  }

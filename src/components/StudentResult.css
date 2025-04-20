@@ -1,0 +1,145 @@
+.result-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-top: 20px;
+  }
+  
+  .event-info {
+    background-color: #f1f8e9;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    text-align: center;
+  }
+  
+  .score-card {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin: 25px 0;
+  }
+  
+  .score-item {
+    background-color: #e8f5e9;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .score-item h4 {
+    color: #388e3c;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  
+  .score {
+    font-size: 32px;
+    font-weight: bold;
+    color: #1b5e20;
+  }
+  
+  .score-item.total {
+    background-color: #c8e6c9;
+  }
+  
+  .score-item.total h4 {
+    color: #1b5e20;
+  }
+  
+  .rank-info {
+    background-color: #fff3e0;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 25px 0;
+    text-align: center;
+  }
+  
+  .rank-info h3 {
+    color: #e65100;
+    margin-bottom: 10px;
+  }
+  
+  .rank {
+    font-size: 36px;
+    font-weight: bold;
+    color: #ff6f00;
+    margin: 10px 0 20px 0;
+  }
+  
+  .ranking-button {
+    display: inline-block;
+    background-color: #ffb74d;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  .ranking-button:hover {
+    background-color: #ff9800;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  
+  .history-section {
+    margin: 30px 0;
+  }
+  
+  .history-table {
+    overflow-x: auto;
+    margin-top: 15px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+  }
+  
+  th {
+    background-color: #e0e0e0;
+    padding: 12px;
+    font-weight: bold;
+    color: #424242;
+  }
+  
+  td {
+    padding: 12px;
+    border-bottom: 1px solid #eeeeee;
+  }
+  
+  tr.current-round {
+    background-color: #fff8e1;
+    font-weight: bold;
+  }
+  
+  .no-result-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 40px 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .no-result-container p {
+    margin: 20px 0 30px 0;
+    color: #757575;
+  }
+  
+  /* レスポンシブ対応 */
+  @media (max-width: 768px) {
+    .score-card {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .score {
+      font-size: 28px;
+    }
+  }
