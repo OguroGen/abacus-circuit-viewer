@@ -7,7 +7,7 @@ import StudentResult from '@components/StudentResult';
 import CircuitRanking from '@components/CircuitRanking';
 import './App.css';
 
-const LIFF_ID = process.env.VITE_LIFF_ID; // .envからLIFF IDを読み込む
+const LIFF_ID = import.meta.env.VITE_LIFF_ID; // .envからLIFF IDを読み込む
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
