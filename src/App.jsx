@@ -7,7 +7,11 @@ import StudentResult from '@components/StudentResult';
 import CircuitRanking from '@components/CircuitRanking';
 import './App.css';
 
-const LIFF_ID = import.meta.env.VITE_LIFF_ID; // .envからLIFF IDを読み込む
+// 環境変数が設定されていない場合のデフォルト値
+const LIFF_ID = import.meta.env.VITE_LIFF_ID || '2006661242-kOwPm8M0'; // .envからLIFF IDを読み込む
+
+// デバッグ情報をコンソールに出力
+console.log('LIFF ID:', LIFF_ID);
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
