@@ -91,20 +91,11 @@ function App() {
     return <div className="error">ログインしてください</div>;
   }
 
-  // 現在のURLを取得
-  const currentUrl = window.location.href;
-  console.log('Current URL:', currentUrl);
-  
-  // Vercel環境かどうかを判断
-  const isVercel = currentUrl.includes('vercel.app') || import.meta.env.VITE_VERCEL === '1';
-  console.log('Is Vercel:', isVercel);
-  
-  // Vercel環境ではbasenameを'/'に、それ以外では'/liff-app/abacus-circuit-viewer'に設定
-  const basename = isVercel ? '/' : '/liff-app/abacus-circuit-viewer';
-  console.log('Router basename:', basename);
+  // basenameを常に'/'に設定
+  console.log('Router basename: /');
   
   return (
-    <Router basename={basename}>
+    <Router basename="/">
       <div className="App">
         <Routes>
           {/* 月（回）選択画面を最初に表示 */}
