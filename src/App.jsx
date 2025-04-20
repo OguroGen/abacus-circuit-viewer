@@ -88,7 +88,7 @@ function App() {
   }
 
   return (
-    <Router>
+    <Router basename="/liff-app/abacus-circuit-viewer">
       <div className="App">
         <Routes>
           {/* 月（回）選択画面を最初に表示 */}
