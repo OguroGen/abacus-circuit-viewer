@@ -133,7 +133,6 @@ function CircuitRanking() {
             <tr>
               <th className="rank-header">順位</th>
               <th className="name-header">お名前</th>
-              <th className="school-header">学校</th>
               <th className="score-header">かけ算</th>
               <th className="score-header">わり算</th>
               <th className="score-header">見取算</th>
@@ -152,7 +151,6 @@ function CircuitRanking() {
                   {item.calculated_rank}
                 </td>
                 <td className="name-cell">{item.students?.family_name} {item.students?.given_name}</td>
-                <td className="school-cell">{item.students?.school_name}</td>
                 <td className="score-cell">{item.multiplication_score}</td>
                 <td className="score-cell">{item.division_score}</td>
                 <td className="score-cell">{item.mental_calculation_score}</td>

@@ -52,7 +52,7 @@ function App() {
     try {
       // LINE IDからユーザー情報を取得
       const { data: users, error: userError } = await supabase
-        .from('users')
+        .from('parents')
         .select('id')
         .eq('line_user_id', lineUserId)
         .single();
