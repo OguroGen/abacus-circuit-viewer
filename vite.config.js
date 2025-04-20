@@ -3,6 +3,9 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 
+// Vercelにデプロイされているかどうかを判断
+const isVercel = process.env.VERCEL === '1';
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
@@ -15,5 +18,6 @@ export default defineConfig({
       '@utils': resolve(__dirname, 'src/utils')
     }
   },
-  base: '/liff-app/abacus-circuit-viewer/'
+  // Vercelにデプロイされている場合はbaseを設定しない
+  base: isVercel ? '/' : '/liff-app/abacus-circuit-viewer/'
 });

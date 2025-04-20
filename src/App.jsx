@@ -87,8 +87,11 @@ function App() {
     return <div className="error">ログインしてください</div>;
   }
 
+  // Vercelにデプロイされているかどうかを判断
+  const isVercel = import.meta.env.VITE_VERCEL === '1';
+  
   return (
-    <Router basename="/liff-app/abacus-circuit-viewer">
+    <Router basename={isVercel ? '/' : '/liff-app/abacus-circuit-viewer'}>
       <div className="App">
         <Routes>
           {/* 月（回）選択画面を最初に表示 */}
