@@ -1,7 +1,7 @@
 .ranking-container {
     background-color: white;
     border-radius: 12px;
-    padding: 20px;
+    padding: 20px 0;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     margin-top: 20px;
     max-width: 800px;
@@ -84,7 +84,7 @@
   
   th {
     background-color: #e0e0e0;
-    padding: 12px 5px;
+    padding: 10px 3px;
     font-weight: bold;
     color: #424242;
     position: sticky;
@@ -114,7 +114,7 @@
   }
   
   td {
-    padding: 15px 5px;
+    padding: 10px 3px;
     border-bottom: 1px solid #eeeeee;
   }
   
@@ -137,8 +137,8 @@
   
   /* メダルアイコン */
   .medal-icon {
-    font-size: 20px;
-    margin-right: 5px;
+    font-size: 18px;
+    margin-right: 2px;
     display: inline-block;
   }
   
@@ -169,7 +169,7 @@
   .name-cell {
     font-weight: 500;
     text-align: left;
-    padding-left: 15px;
+    padding-left: 8px;
   }
   
   .school-cell {
@@ -180,6 +180,7 @@
   .score-cell {
     font-weight: 500;
     color: #2e7d32;
+    font-size: 14px;
   }
   
   .total-cell {
