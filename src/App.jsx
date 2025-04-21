@@ -7,9 +7,6 @@ import StudentResult from '@components/StudentResult';
 import CircuitRanking from '@components/CircuitRanking';
 import './App.css';
 
-// .envからLIFF IDを読み込む
-const LIFF_ID = import.meta.env.VITE_LIFF_ID;
-
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null);
@@ -21,7 +18,7 @@ function App() {
     // LIFFの初期化
     const initLiff = async () => {
       try {
-        const liffObject = await initializeLiff(LIFF_ID);
+        const liffObject = await initializeLiff();
 
         if (liffObject.isLoggedIn()) {
           setIsLoggedIn(true);
@@ -86,6 +83,19 @@ function App() {
 
   if (!isLoggedIn) {
     return <div className="error">ログインしてください</div>;
+  }
+
+  // 子供情報が見つからない場合
+  if (children.length === 0) {
+    return (
+      <div className="error-container">
+        <div className="error">
+          <h2>生徒さんが登録されていません</h2>
+          <p>このアプリは、登録されている生徒の保護者のみご利用いただけます。</p>
+          <p>生徒情報の登録については、そろばん教室にお問い合わせください。</p>
+        </div>
+      </div>
+    );
   }
 
   return (
