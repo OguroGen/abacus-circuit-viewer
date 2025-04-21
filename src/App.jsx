@@ -7,11 +7,8 @@ import StudentResult from '@components/StudentResult';
 import CircuitRanking from '@components/CircuitRanking';
 import './App.css';
 
-// 環境変数が設定されていない場合のデフォルト値
-const LIFF_ID = import.meta.env.VITE_LIFF_ID || '2006661242-kOwPm8M0'; // .envからLIFF IDを読み込む
-
-// デバッグ情報をコンソールに出力
-console.log('LIFF ID:', LIFF_ID);
+// .envからLIFF IDを読み込む
+const LIFF_ID = import.meta.env.VITE_LIFF_ID;
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,13 +22,13 @@ function App() {
     const initLiff = async () => {
       try {
         const liffObject = await initializeLiff(LIFF_ID);
-        
+
         if (liffObject.isLoggedIn()) {
           setIsLoggedIn(true);
           const profile = await liffObject.getProfile();
           setProfile(profile);
           setUserId(profile.userId);
-          
+
           // Supabaseからユーザーに関連する子どもの情報を取得
           fetchChildren(profile.userId);
         } else {
@@ -66,7 +63,7 @@ function App() {
         .eq('parent_id', users.id);
 
       if (relError) throw relError;
-      
+
       if (relationships && relationships.length > 0) {
         // 子どもの詳細情報を取得
         const seitoIds = relationships.map(rel => rel.seito_id);
@@ -91,9 +88,6 @@ function App() {
     return <div className="error">ログインしてください</div>;
   }
 
-  // basenameを常に'/'に設定
-  console.log('Router basename: /');
-  
   return (
     <Router basename="/">
       <div className="App">
