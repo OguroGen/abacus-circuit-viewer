@@ -29,8 +29,7 @@ function CircuitRanking() {
             *,
             students (
               family_name,
-              given_name,
-              school_name
+              given_name
             )
           `)
           .eq('circuit_round', round)
@@ -132,10 +131,10 @@ function CircuitRanking() {
           <thead>
             <tr>
               <th className="rank-header">順位</th>
-              <th className="name-header">お名前</th>
-              <th className="score-header">かけ算</th>
-              <th className="score-header">わり算</th>
-              <th className="score-header">見取算</th>
+              <th className="name-header">名前</th>
+              <th className="score-header">かけ</th>
+              <th className="score-header">わり</th>
+              <th className="score-header">見取</th>
               <th className="total-header">合計</th>
             </tr>
           </thead>
