@@ -84,7 +84,7 @@
   
   th {
     background-color: #e0e0e0;
-    padding: 12px 15px;
+    padding: 12px 5px;
     font-weight: bold;
     color: #424242;
     position: sticky;
@@ -96,7 +96,7 @@
   }
   
   th.name-header {
-    width: 150px;
+    width: 200px;
   }
   
   th.school-header {
@@ -104,7 +104,7 @@
   }
   
   th.score-header {
-    width: 80px;
+    width: 60px;
   }
   
   th.total-header {
@@ -114,7 +114,7 @@
   }
   
   td {
-    padding: 15px 12px;
+    padding: 15px 5px;
     border-bottom: 1px solid #eeeeee;
   }
   
