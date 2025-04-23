@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '@services/supabase';
 import './CircuitSelector.css';
 
 function CircuitSelector({ children }) {
   const [circuits, setCircuits] = useState([]);
-  const [selectedChild, setSelectedChild] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [selectedCircuit, setSelectedCircuit] = useState(null);
+  const [showChildSelector, setShowChildSelector] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // アバカスサーキットの開催回の一覧を取得
@@ -29,16 +31,27 @@ function CircuitSelector({ children }) {
     };
 
     fetchCircuits();
+  }, []);
 
-    // 子どもが1人だけの場合は自動選択
+  // 個人成績ボタンがクリックされた時の処理
+  const handleStudentResultClick = (circuit) => {
+    setSelectedCircuit(circuit);
+    
+    // 子どもが1人だけの場合は直接遷移
     if (children && children.length === 1) {
-      setSelectedChild(children[0]);
+      navigate(`/student/${children[0].seito_id}/${circuit.circuit_round}`);
+    } else {
+      // 子どもが複数いる場合は選択画面を表示
+      setShowChildSelector(true);
     }
-  }, [children]);
+  };
 
   // 子どもを選択する処理
   const handleChildSelect = (child) => {
-    setSelectedChild(child);
+    if (selectedCircuit) {
+      navigate(`/student/${child.seito_id}/${selectedCircuit.circuit_round}`);
+    }
+    setShowChildSelector(false);
   };
 
   if (loading) {
@@ -46,7 +59,7 @@ function CircuitSelector({ children }) {
   }
 
   // 子どもの選択が必要な場合
-  if (!selectedChild && children.length > 1) {
+  if (showChildSelector && children.length > 1) {
     return (
       <div className="selector-container">
         <h2>お子様を選択してください</h2>
@@ -61,21 +74,18 @@ function CircuitSelector({ children }) {
             </div>
           ))}
         </div>
+        <button 
+          onClick={() => setShowChildSelector(false)} 
+          className="back-button"
+        >
+          戻る
+        </button>
       </div>
     );
   }
 
   return (
     <div className="selector-container">
-      {selectedChild && (
-        <div className="child-info">
-          <h2>{selectedChild.family_name} {selectedChild.given_name}さんの成績</h2>
-          <button onClick={() => setSelectedChild(null)} className="change-button">
-            お子様を変更
-          </button>
-        </div>
-      )}
-
       <h3>アバカスサーキット一覧</h3>
       
       <div className="circuit-list">
@@ -85,12 +95,12 @@ function CircuitSelector({ children }) {
             <p className="circuit-date">{formatDate(circuit.event_date)}</p>
             
             <div className="circuit-buttons">
-              <Link
-                to={`/student/${selectedChild?.seito_id}/${circuit.circuit_round}`}
+              <button
+                onClick={() => handleStudentResultClick(circuit)}
                 className="student-button"
               >
                 個人成績
-              </Link>
+              </button>
               
               <Link
                 to={`/ranking/${circuit.circuit_round}/0`}
