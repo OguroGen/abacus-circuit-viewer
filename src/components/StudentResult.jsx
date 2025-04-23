@@ -51,8 +51,9 @@ function StudentResult() {
         if (studentError) throw studentError;
 
         // 4. 同じクラスの結果を取得して順位を計算するためのデータ
+        let classData = [];
         if (resultData) {
-          const { data: classData, error: classError } = await supabase
+          const { data: fetchedClassData, error: classError } = await supabase
             .from('abacus_circuit_results')
             .select('*')
             .eq('circuit_round', round)
@@ -60,6 +61,7 @@ function StudentResult() {
             .order('total_score', { ascending: false });
 
           if (classError) throw classError;
+          classData = fetchedClassData;
           setClassResults(classData);
         }
 
@@ -87,7 +89,7 @@ function StudentResult() {
         // 初期表示用のデータをセット
         setDisplayResult(resultData);
         setDisplayEventInfo(eventData);
-        setDisplayClassResults(classData || []);
+        setDisplayClassResults(classData);
       } catch (error) {
         console.error('データ取得エラー:', error);
         setError('データの取得に失敗しました。');
