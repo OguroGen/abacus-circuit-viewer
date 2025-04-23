@@ -114,9 +114,26 @@
     border-bottom: 1px solid #eeeeee;
   }
   
+  /* 履歴テーブルの行をクリック可能に見せる */
+  .history-table tbody tr {
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .history-table tbody tr:hover {
+    background-color: #f5f5f5;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
   tr.current-round {
     background-color: #fff8e1;
     font-weight: bold;
+  }
+  
+  /* 現在選択中の行のホバー時 */
+  tr.current-round:hover {
+    background-color: #ffe082;
   }
   
   .no-result-container {

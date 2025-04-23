@@ -12,6 +12,10 @@ function StudentResult() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [displayRound, setDisplayRound] = useState(round);
+  const [displayResult, setDisplayResult] = useState(null);
+  const [displayEventInfo, setDisplayEventInfo] = useState(null);
+  const [displayClassResults, setDisplayClassResults] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,7 +69,8 @@ function StudentResult() {
           .select(`
             *,
             abacus_circuit_events (
-              event_date
+              event_date,
+              circuit_round
             )
           `)
           .eq('seito_id', seitoId)
@@ -78,6 +83,11 @@ function StudentResult() {
         setEventInfo(eventData);
         setStudentInfo(studentData);
         setHistory(historyData);
+        
+        // 初期表示用のデータをセット
+        setDisplayResult(resultData);
+        setDisplayEventInfo(eventData);
+        setDisplayClassResults(classData || []);
       } catch (error) {
         console.error('データ取得エラー:', error);
         setError('データの取得に失敗しました。');
@@ -88,6 +98,45 @@ function StudentResult() {
 
     fetchData();
   }, [seitoId, round]);
+
+  // 過去の成績をタップした時の処理
+  const handleHistoryClick = async (historyItem) => {
+    // すでに表示中の回数と同じ場合は何もしない
+    if (displayRound == historyItem.circuit_round) return;
+    
+    try {
+      setLoading(true);
+      
+      // 1. イベント情報の取得
+      const { data: eventData, error: eventError } = await supabase
+        .from('abacus_circuit_events')
+        .select('*')
+        .eq('circuit_round', historyItem.circuit_round)
+        .single();
+
+      if (eventError) throw eventError;
+      
+      // 2. 同じクラスの結果を取得して順位を計算するためのデータ
+      const { data: classData, error: classError } = await supabase
+        .from('abacus_circuit_results')
+        .select('*')
+        .eq('circuit_round', historyItem.circuit_round)
+        .eq('class_level', historyItem.class_level)
+        .order('total_score', { ascending: false });
+
+      if (classError) throw classError;
+      
+      // 表示データを更新
+      setDisplayRound(historyItem.circuit_round);
+      setDisplayResult(historyItem);
+      setDisplayEventInfo(eventData);
+      setDisplayClassResults(classData);
+    } catch (error) {
+      console.error('データ取得エラー:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // 順位を計算する関数
   const calculateRank = (studentScore, allResults) => {
@@ -120,7 +169,7 @@ function StudentResult() {
   }
 
   // 結果が見つからない場合
-  if (!result) {
+  if (!result && !history.length) {
     return (
       <div className="no-result-container">
         <h2>結果が見つかりません</h2>
@@ -130,45 +179,49 @@ function StudentResult() {
     );
   }
 
+  // 表示する結果がない場合は履歴から最初のものを表示
+  const currentDisplayResult = displayResult || (history.length > 0 ? history[0] : null);
+  const currentDisplayEventInfo = displayEventInfo || (history.length > 0 && history[0].abacus_circuit_events ? { event_date: history[0].abacus_circuit_events.event_date } : null);
+  
   // 順位を計算
-  const rank = calculateRank(result, classResults);
+  const rank = calculateRank(currentDisplayResult, displayClassResults);
 
   return (
     <div className="result-container">
       <h2>{studentInfo?.family_name} {studentInfo?.given_name}さんの成績</h2>
       <div className="event-info">
-        <h3>第{round}回 アバカスサーキット</h3>
-        <p>開催: {eventInfo && formatDate(eventInfo.event_date)}</p>
-        <p>クラス: {formatClassLevel(result.class_level)}</p>
+        <h3>第{displayRound}回 アバカスサーキット</h3>
+        <p>開催: {currentDisplayEventInfo && formatDate(currentDisplayEventInfo.event_date)}</p>
+        <p>クラス: {formatClassLevel(currentDisplayResult?.class_level)}</p>
       </div>
 
       <div className="score-card">
         <div className="score-item">
           <h4>かけ算</h4>
-          <div className="score">{result.multiplication_score}</div>
+          <div className="score">{currentDisplayResult?.multiplication_score}</div>
         </div>
         <div className="score-item">
           <h4>わり算</h4>
-          <div className="score">{result.division_score}</div>
+          <div className="score">{currentDisplayResult?.division_score}</div>
         </div>
         <div className="score-item">
           <h4>見取算</h4>
-          <div className="score">{result.mental_calculation_score}</div>
+          <div className="score">{currentDisplayResult?.mental_calculation_score}</div>
         </div>
         <div className="score-item total">
           <h4>合計</h4>
-          <div className="score">{result.total_score}</div>
+          <div className="score">{currentDisplayResult?.total_score}</div>
         </div>
       </div>
 
       <div className="rank-info">
         <h3>順位情報</h3>
-        <p className="rank">第 {rank} 位 / {classResults.length}人中</p>
+        <p className="rank">第 {rank || '-'} 位 / {displayClassResults.length || '-'}人中</p>
         <Link 
-          to={`/ranking/${round}/${result.class_level}`} 
+          to={`/ranking/${displayRound}/${currentDisplayResult?.class_level}`} 
           className="ranking-button"
         >
-          {formatClassLevel(result.class_level)}クラスの順位表を見る
+          {formatClassLevel(currentDisplayResult?.class_level)}クラスの順位表を見る
         </Link>
       </div>
 
@@ -188,7 +241,11 @@ function StudentResult() {
             </thead>
             <tbody>
               {history.map((item) => (
-                <tr key={item.id} className={item.circuit_round == round ? 'current-round' : ''}>
+                <tr 
+                  key={item.id} 
+                  className={item.circuit_round == displayRound ? 'current-round' : ''}
+                  onClick={() => handleHistoryClick(item)}
+                >
                   <td>{item.circuit_round}</td>
                   <td>{item.abacus_circuit_events ? formatDate(item.abacus_circuit_events.event_date) : ''}</td>
                   <td>{item.multiplication_score}</td>
