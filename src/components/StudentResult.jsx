@@ -245,36 +245,67 @@ function StudentResult() {
 
       <div className="history-section">
         <h3>過去の成績</h3>
-        <div className="history-table">
-          <table>
-            <thead>
-              <tr>
-                <th>回</th>
-                <th>開催月</th>
-                <th>かけ算</th>
-                <th>わり算</th>
-                <th>見取算</th>
-                <th>合計</th>
-              </tr>
-            </thead>
-            <tbody>
-              {history.map((item) => (
-                <tr 
-                  key={item.id} 
-                  className={item.circuit_round == displayRound ? 'current-round' : ''}
-                  onClick={() => handleHistoryClick(item)}
-                >
-                  <td>{item.circuit_round}</td>
-                  <td>{item.abacus_circuit_events ? formatDate(item.abacus_circuit_events.event_date) : ''}</td>
-                  <td>{item.multiplication_score}</td>
-                  <td>{item.division_score}</td>
-                  <td>{item.mental_calculation_score}</td>
-                  <td>{item.total_score}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        
+        {/* クラスレベルごとに成績をグループ化 */}
+        {(() => {
+          // クラスレベルごとにグループ化
+          const groupedByClass = history.reduce((acc, item) => {
+            const classLevel = item.class_level;
+            if (!acc[classLevel]) {
+              acc[classLevel] = [];
+            }
+            acc[classLevel].push(item);
+            return acc;
+          }, {});
+          
+          // クラスレベルの順序（F2, F1, F0の順）
+          const classOrder = [2, 1, 0];
+          
+          return (
+            <>
+              {classOrder.map(classLevel => {
+                const classItems = groupedByClass[classLevel];
+                if (!classItems || classItems.length === 0) return null;
+                
+                return (
+                  <div key={classLevel} className="history-class-section">
+                    <h4>{formatClassLevel(classLevel)}クラスの成績</h4>
+                    <div className="history-table">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>回</th>
+                            <th>開催月</th>
+                            <th>かけ算</th>
+                            <th>わり算</th>
+                            <th>見取算</th>
+                            <th>合計</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {classItems.map((item) => (
+                            <tr 
+                              key={item.id} 
+                              className={item.circuit_round == displayRound ? 'current-round' : ''}
+                              onClick={() => handleHistoryClick(item)}
+                            >
+                              <td>{item.circuit_round}</td>
+                              <td>{item.abacus_circuit_events ? formatDate(item.abacus_circuit_events.event_date) : ''}</td>
+                              <td>{item.multiplication_score}</td>
+                              <td>{item.division_score}</td>
+                              <td>{item.mental_calculation_score}</td>
+                              <td>{item.total_score}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          );
+        })()}
       </div>
 
       <Link to="/" className="back-button">戻る</Link>
