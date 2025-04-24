@@ -150,112 +150,6 @@
     color: #757575;
   }
   
-  /* クラス選択ボタン */
-  .class-selector {
-    margin: 30px 0;
-    background-color: #f5f5f5;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-  }
-  
-  .class-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 15px;
-  }
-  
-  .class-button {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 25px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 16px;
-    min-width: 100px;
-  }
-  
-  .class-button.f0 {
-    background-color: #fff8e1;
-    color: #ff6f00;
-  }
-  
-  .class-button.f1 {
-    background-color: #e0f7fa;
-    color: #0097a7;
-  }
-  
-  .class-button.f2 {
-    background-color: #f3e5f5;
-    color: #7b1fa2;
-  }
-  
-  .class-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  }
-  
-  .class-button.active {
-    transform: translateY(0);
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
-  }
-  
-  .class-button.f0.active {
-    background-color: #ffd54f;
-  }
-  
-  .class-button.f1.active {
-    background-color: #80deea;
-  }
-  
-  .class-button.f2.active {
-    background-color: #ce93d8;
-  }
-  
-  /* クラス別結果表示 */
-  .class-results {
-    margin: 30px 0;
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-  
-  .class-results h3 {
-    text-align: center;
-    margin-bottom: 15px;
-    color: #424242;
-  }
-  
-  .class-results-table {
-    overflow-x: auto;
-  }
-  
-  .class-results table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .class-results th {
-    background-color: #f5f5f5;
-    padding: 12px;
-    font-weight: bold;
-    color: #424242;
-  }
-  
-  .class-results td {
-    padding: 12px;
-    border-bottom: 1px solid #eeeeee;
-    text-align: center;
-  }
-  
-  .class-results tr.current-student {
-    background-color: #e8f5e9;
-    font-weight: bold;
-  }
-  
   /* レスポンシブ対応 */
   @media (max-width: 768px) {
     .score-card {
@@ -264,15 +158,5 @@
     
     .score {
       font-size: 28px;
-    }
-    
-    .class-buttons {
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    .class-button {
-      width: 100%;
-      max-width: 200px;
     }
   }

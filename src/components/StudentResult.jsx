@@ -16,8 +16,6 @@ function StudentResult() {
   const [displayResult, setDisplayResult] = useState(null);
   const [displayEventInfo, setDisplayEventInfo] = useState(null);
   const [displayClassResults, setDisplayClassResults] = useState([]);
-  const [selectedClassLevel, setSelectedClassLevel] = useState(null);
-  const [classLevelResults, setClassLevelResults] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,45 +101,6 @@ function StudentResult() {
     fetchData();
   }, [seitoId, round]);
 
-  // クラスレベルを選択した時の処理
-  const handleClassLevelSelect = async (classLevel) => {
-    if (selectedClassLevel === classLevel) {
-      // 同じクラスレベルを選択した場合は選択解除
-      setSelectedClassLevel(null);
-      setClassLevelResults([]);
-      return;
-    }
-    
-    try {
-      setLoading(true);
-      setSelectedClassLevel(classLevel);
-      
-      // 選択したクラスレベルの結果を取得
-      const { data, error } = await supabase
-        .from('abacus_circuit_results')
-        .select(`
-          *,
-          students (
-            seito_id,
-            family_name,
-            given_name
-          )
-        `)
-        .eq('circuit_round', displayRound)
-        .eq('class_level', classLevel)
-        .order('total_score', { ascending: false });
-        
-      if (error) throw error;
-      
-      setClassLevelResults(data || []);
-    } catch (error) {
-      console.error('クラスデータ取得エラー:', error);
-      setError('クラスデータの取得に失敗しました。');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   // 過去の成績をタップした時の処理
   const handleHistoryClick = async (historyItem) => {
     // すでに表示中の回数と同じ場合は何もしない
@@ -149,10 +108,6 @@ function StudentResult() {
     
     try {
       setLoading(true);
-      
-      // クラスレベル選択をリセット
-      setSelectedClassLevel(null);
-      setClassLevelResults([]);
       
       // 1. イベント情報の取得
       const { data: eventData, error: eventError } = await supabase
@@ -271,65 +226,6 @@ function StudentResult() {
           {formatClassLevel(currentDisplayResult?.class_level)}クラスの順位表を見る
         </Link>
       </div>
-
-      <div className="class-selector">
-        <h3>クラス別成績表示</h3>
-        <div className="class-buttons">
-          <button 
-            className={`class-button f0 ${selectedClassLevel === 0 ? 'active' : ''}`}
-            onClick={() => handleClassLevelSelect(0)}
-          >
-            F0
-          </button>
-          <button 
-            className={`class-button f1 ${selectedClassLevel === 1 ? 'active' : ''}`}
-            onClick={() => handleClassLevelSelect(1)}
-          >
-            F1
-          </button>
-          <button 
-            className={`class-button f2 ${selectedClassLevel === 2 ? 'active' : ''}`}
-            onClick={() => handleClassLevelSelect(2)}
-          >
-            F2
-          </button>
-        </div>
-      </div>
-
-      {selectedClassLevel !== null && classLevelResults.length > 0 && (
-        <div className="class-results">
-          <h3>{formatClassLevel(selectedClassLevel)}クラスの成績一覧</h3>
-          <div className="class-results-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>順位</th>
-                  <th>名前</th>
-                  <th>かけ算</th>
-                  <th>わり算</th>
-                  <th>見取算</th>
-                  <th>合計</th>
-                </tr>
-              </thead>
-              <tbody>
-                {classLevelResults.map((item, index) => (
-                  <tr 
-                    key={item.id}
-                    className={item.seito_id === seitoId ? 'current-student' : ''}
-                  >
-                    <td>{index + 1}</td>
-                    <td>{item.students ? `${item.students.family_name} ${item.students.given_name}` : '-'}</td>
-                    <td>{item.multiplication_score}</td>
-                    <td>{item.division_score}</td>
-                    <td>{item.mental_calculation_score}</td>
-                    <td>{item.total_score}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
 
       <div className="history-section">
         <h3>過去の成績</h3>
