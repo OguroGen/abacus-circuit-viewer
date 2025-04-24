@@ -20,12 +20,28 @@ function StudentResult() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        let targetRound = round;
+        
+        // 'latest'パラメータの場合は最新の回を取得
+        if (round === 'latest') {
+          const { data: latestCircuit, error: latestError } = await supabase
+            .from('abacus_circuit_events')
+            .select('circuit_round')
+            .order('circuit_round', { ascending: false })
+            .limit(1)
+            .single();
+            
+          if (latestError) throw latestError;
+          targetRound = latestCircuit.circuit_round;
+          setDisplayRound(targetRound);
+        }
+        
         // 1. 選択したラウンドの結果取得
         const { data: resultData, error: resultError } = await supabase
           .from('abacus_circuit_results')
           .select('*')
           .eq('seito_id', seitoId)
-          .eq('circuit_round', round)
+          .eq('circuit_round', targetRound)
           .single();
 
         if (resultError && resultError.code !== 'PGRST116') {
@@ -36,7 +52,7 @@ function StudentResult() {
         const { data: eventData, error: eventError } = await supabase
           .from('abacus_circuit_events')
           .select('*')
-          .eq('circuit_round', round)
+          .eq('circuit_round', targetRound)
           .single();
 
         if (eventError) throw eventError;
@@ -56,7 +72,7 @@ function StudentResult() {
           const { data: fetchedClassData, error: classError } = await supabase
             .from('abacus_circuit_results')
             .select('*')
-            .eq('circuit_round', round)
+            .eq('circuit_round', targetRound)
             .eq('class_level', resultData.class_level)
             .order('total_score', { ascending: false });
 

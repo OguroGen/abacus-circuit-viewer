@@ -6,6 +6,36 @@
     margin-top: 20px;
   }
   
+  /* 個人成績ボタンコンテナ */
+  .student-result-button-container {
+    text-align: center;
+    margin: 20px 0 30px 0;
+  }
+  
+  .global-student-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  
+  .global-student-button:hover {
+    background-color: #388e3c;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  }
+  
+  .global-student-button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  }
+  
   .child-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));

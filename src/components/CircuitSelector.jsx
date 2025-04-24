@@ -34,12 +34,10 @@ function CircuitSelector({ children }) {
   }, []);
 
   // 個人成績ボタンがクリックされた時の処理
-  const handleStudentResultClick = (circuit) => {
-    setSelectedCircuit(circuit);
-    
+  const handleStudentResultClick = () => {
     // 子どもが1人だけの場合は直接遷移
     if (children && children.length === 1) {
-      navigate(`/student/${children[0].seito_id}/${circuit.circuit_round}`);
+      navigate(`/student/${children[0].seito_id}/latest`);
     } else {
       // 子どもが複数いる場合は選択画面を表示
       setShowChildSelector(true);
@@ -48,9 +46,7 @@ function CircuitSelector({ children }) {
 
   // 子どもを選択する処理
   const handleChildSelect = (child) => {
-    if (selectedCircuit) {
-      navigate(`/student/${child.seito_id}/${selectedCircuit.circuit_round}`);
-    }
+    navigate(`/student/${child.seito_id}/latest`);
     setShowChildSelector(false);
   };
 
@@ -86,6 +82,15 @@ function CircuitSelector({ children }) {
 
   return (
     <div className="selector-container">
+      <div className="student-result-button-container">
+        <button
+          onClick={handleStudentResultClick}
+          className="global-student-button"
+        >
+          個人成績を見る
+        </button>
+      </div>
+      
       <h3>アバカスサーキット一覧</h3>
       
       <div className="circuit-list">
@@ -95,13 +100,6 @@ function CircuitSelector({ children }) {
             <p className="circuit-date">{formatDate(circuit.event_date)}</p>
             
             <div className="circuit-buttons">
-              <button
-                onClick={() => handleStudentResultClick(circuit)}
-                className="student-button"
-              >
-                個人成績
-              </button>
-              
               <Link
                 to={`/ranking/${circuit.circuit_round}/0`}
                 className="ranking-button f0"
